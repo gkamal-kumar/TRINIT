@@ -1,0 +1,22 @@
+<%- include('../partials/head') %>
+
+    <body><%- include('../partials/head') %>
+
+        <body>
+            <%- include('../partials/navbar') %>
+                <div class="container">
+                    <h1 class="text-center">All Users</h1>
+                    <div>
+                        <% for(let user of allusers){ %>
+                            <li>
+                                <%= user.name %>
+                            </li>
+                            <a href="/users/<%=user.id %>">User Details</a>
+                            <% } %>
+                    </div>
+                    <br>
+                </div>
+                <!-- <a href="/users/new">New User</a> -->
+    
+        </body>
+    <%- include('../partials/footer') %>

@@ -1,0 +1,39 @@
+<%- include('../partials/head') %>
+
+     <body>
+          <%- include('../partials/navbar') %>
+               <div class="container">
+                    <div>
+                         <h3>Username: <%= camp.name %></h3>
+                         <h3>Email: <%= camp.email %></h3>
+                         <h3>Description: <%= camp.description %></h3>
+                         <h3>PhoneNumber: <%= camp.phoneNumber %></h3>
+                         <h3>Address: <%= camp.address  %></h3>
+                    </div>
+                    <a href="/camps/new">New Camp</a>
+                    <br>
+                    <a href="/camps">All Camps</a>
+               </div>
+               <br>
+               <br>
+               <br>
+               <form action="/camps/<%= camp.id  %>/post" method="post">
+                      <textarea rows="20" cols="10" placeholder="Make your New Donation Camp" id="message" name="message"></textarea>
+                      <button type="submit">Submit</button>
+               </form>
+               <br>
+               <br>
+               <% if(camp.recentActivity.length>=1){ %>
+                    <h4>Recent Activity</h4>
+                   <% for(let ra of camp.recentActivity){ %>
+                        <li><%= ra.message %></li>
+                         <form action="/<%= camp._id %>/donate" method="POST">
+                              <input type="String" id="money" name="money" placeholder="Donate here">
+                              <button type="submit">Submit</button>
+                         </form>
+                   <% } %>
+               <% } %>
+
+     
+     </body>
+     <%- include('../partials/footer') %>

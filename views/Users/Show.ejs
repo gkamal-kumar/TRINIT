@@ -1,0 +1,18 @@
+<%- include('../partials/head') %>
+
+     <body>
+          <%- include('../partials/navbar') %>
+               <div class="container">
+                    <div>
+                         <h3>Username: <%= user.name %></h3>
+                         <h3>Email: <%= user.email %></h3>
+                         <h3>Description: <%= user.description %></h3>
+                         <h3>PhoneNumber: <%= user.phoneNumber %></h3>
+                         <h3>Address: <%= user.address  %></h3>
+                    </div>
+                    <a href="/users/new">New User</a>
+                    <br>
+                    <a href="/users">All Users</a>
+               </div>
+     </body>
+     <%- include('../partials/footer') %>

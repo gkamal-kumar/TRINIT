@@ -1,0 +1,20 @@
+<%- include('../partials/head') %>
+
+    <body>
+        <%- include('../partials/navbar') %>
+            <div class="container">
+                <h1>All Camps</h1>
+                <div>
+                    <% for(let camp of allcamps){ %>
+                        <li>
+                            <%= camp.name %><a href="/camps/<%=camp.id %>">Camp Details</a>
+
+                        </li>
+                        <% } %>
+                </div>
+                <br>
+            </div>
+            
+
+    </body>
+    <%- include('../partials/footer') %>

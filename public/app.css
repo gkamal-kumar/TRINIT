@@ -1,0 +1,10 @@
+img{
+    padding-top: 10px;
+    aspect-ratio: 4/3;
+    object-fit: contain;
+    width: 100%;
+}
+.cardMargin{
+    display: flex;
+    justify-content: center;
+}
