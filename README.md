@@ -1,0 +1,2 @@
+# TRINIT
+contest
