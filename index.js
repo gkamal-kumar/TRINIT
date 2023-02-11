@@ -12,6 +12,8 @@ app.use(express.json());
 const Camps = require('./models/camps');
 const User = require('./models/user');
 const Post = require('./models/Posts');
+const catchAsync = require('./utils/catchAsync');
+const ExpressError = require('./utils/ExpressError');
 mongoose.set('strictQuery', true)
 mongoose.connect('mongodb://localhost:27017/Camps', { useNewUrlParser: true, useUnifiedTopology: true , family : 4})
     .then(() => {
@@ -39,11 +41,11 @@ app.get('/camps/new', (req, res) => {
     res.render('./Camps/register');
 })
 
-app.post('/campregister', async (req, res) => {
+app.post('/campregister',catchAsync(async(req, res) => {
     const newcamp = new Camps(req.body.User);
     await newcamp.save();
     res.redirect('/');
-})
+}))
 
 app.get('/camps/:id', async (req, res) => {
     let { id } = req.params;
@@ -65,11 +67,14 @@ app.get('/users/new', (req, res) => {
     res.render('./Users/register');
 })
 
-app.post('/userregister', async (req, res) => {
+app.post('/userregister', catchAsync(async (req, res) => {
+    if (!req.body.User) {
+        throw new ExpressError('Invalid Campground Data',400);
+    }
     const newuser = new User(req.body.User);
     await newuser.save();
     res.redirect('/');
-})
+}));
 
 app.get('/users/:id', async (req, res) => {
     const { id } = req.params;
@@ -98,10 +103,19 @@ app.get('user/:id1/:id2/donate', async (req, res) => {
     console.log(`${id1},${id2}`);
 })
 
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page Not Found', 404));
+})
 
+
+app.use((err, req, res, next) => {
+    const { statusCode = 500, message = 'Something went wrong' } = err;
+    if(!err.message) err.message = 'Oh No, Something Went Wrong!'
+    res.status(statusCode).render('./error',{err});
+})
 
 
 
 app.listen(8080, () => {
-    console.log("Serving on the LocalHost 3000");
+    console.log("Serving on the LocalHost 8080");
 })
