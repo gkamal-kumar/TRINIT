@@ -11,6 +11,9 @@ const LocalStrategy = require('passport-local');
 const methodOverride = require('method-override');
 const camproutes = require('./routers/camps');
 const userroutes = require('./routers/users');
+const bcrypt = require('bcrypt');
+
+
 
 
 app.use(methodOverride('_method'))
@@ -84,8 +87,10 @@ app.get('/login', (req, res) => {
 })
 
 app.get('/logout', (req, res) => {
+    req.session.flash = { 'success': 'Goodbye!!' }; 
     console.log(req.session);
-    req.session.flash("success")= "Goodbye!!";
+    delete (req.session).passport;
+
     res.redirect('/');
 })
 
@@ -97,10 +102,10 @@ app.get('/', (req, res) => {
 })
 
 
-app.post('/:id/donate',isLoggedin, async(req, res) => {
+app.post('/:id/donate', async(req, res) => {
     const { id } = req.params;
     let { money } = req.body;
-    const post = await Post.findById(id);
+    const post = await Posts.findById(id);
     if (req.session && req.session.passport) {
         const user = await User.find({ username: req.session.passport.user });  
         console.log(user);
@@ -115,12 +120,18 @@ app.post('/:id/donate',isLoggedin, async(req, res) => {
 
 
 
-app.get('/posts/:id', isLoggedin,async(req, res) => {
+app.get('/posts/:id',async(req, res) => {
     let { id } = req.params;
     const post = await Posts.findById(id).populate("user").populate("sender");
     console.log(post);
     res.render('./Posts/Show', { post });
 })
+
+
+
+
+
+
 
 
 
